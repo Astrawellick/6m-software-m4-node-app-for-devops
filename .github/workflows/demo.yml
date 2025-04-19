@@ -2,18 +2,18 @@ name : "Test github action"
 
 on:
   workflow_dispatch:
-  push :
-    branches :
-      -main
+  push:
+    branches:
+        - main
     pull_request:
-      branches :
-        -main
+      branches:
+        - main
 
 jobs :
 
   #BUILD JOB
-  build :
-    runs-on : ubuntu-latest 
+  build:
+    runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v3 # Checks out repository code
       - name: Set up Node.js
