@@ -44,3 +44,31 @@ jobs:
           name: Push Docker Image
           command: |
             docker push astrawellick/devops-intro:latest 
+
+workflows:
+  version: 2
+  simple_workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - main
+                - circleci-project-setup #release 
+
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
+                - circleci-project-setup
+
+      - build-and-push:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
