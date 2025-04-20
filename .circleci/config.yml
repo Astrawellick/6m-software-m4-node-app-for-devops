@@ -28,8 +28,8 @@ jobs:
           command: npm run test
 
   build-and-push:
-    machine:  
-      - image: cimg/node:16.10
+    machine:
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run:
