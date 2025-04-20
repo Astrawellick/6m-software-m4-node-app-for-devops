@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.1
-  docker: circleci/docker@2.1.0 
+  docker: circleci/docker@2.1.0
 
 jobs:
   build:
@@ -27,23 +27,16 @@ jobs:
           name: Run tests
           command: npm run test
 
-  build-and-push:
-    machine:
-      image: ubuntu-2204:current
+  publish:
+    executor: docker/docker
     steps:
+      - setup_remote_docker
       - checkout
-      - run:
-          name: Build Docker Image
-          command: |
-            docker build -t astrawellick/devops-intro:latest .
-      - run:
-          name: Login to Docker Hub
-          command: |
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - run:
-          name: Push Docker Image
-          command: |
-            docker push astrawellick/devops-intro:latest 
+      - docker/check
+      - docker/build:
+          image: astrawellick/devops-intro:latest
+      - docker/push:
+          image: astrawellick/devops-intro:latest
 
 workflows:
   version: 2
@@ -54,7 +47,7 @@ workflows:
             branches:
               only:
                 - main
-                - circleci-project-setup #release 
+                - circleci-project-setup  # release branch
 
       - test:
           requires:
@@ -65,7 +58,7 @@ workflows:
                 - main
                 - circleci-project-setup
 
-      - build-and-push:
+      - publish:
           requires:
             - test
           filters:
