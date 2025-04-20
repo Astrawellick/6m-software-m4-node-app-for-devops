@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.1
-  docker: circleci/docker@2.1.0  # Docker orb to help with building/pushing Docker images
+  docker: circleci/docker@2.1.0  # optional, not required unless you're using orb commands
 
 jobs:
   build:
@@ -28,23 +28,22 @@ jobs:
           command: npm run test
 
   build-and-push:
-  docker:
-    - image: cimg/node:16.10
-  steps:
-    - checkout
-    - run:
-        name: Build Docker Image
-        command: |
-          docker build -t astrawellick/circleCI:latest .
-    - run:
-        name: Login to Docker Hub
-        command: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-    - run:
-        name: Push Docker Image
-        command: |
-          docker push astrawellick/circleCI:latest 
-
+    docker:  
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t astrawellick/circleCI:latest .
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - run:
+          name: Push Docker Image
+          command: |
+            docker push astrawellick/circleCI:latest
 
 workflows:
   version: 2
@@ -56,5 +55,6 @@ workflows:
             - build
       - build-and-push:
           requires:
-            - test  # Ensure that the build-and-push job runs only after tests pass
+            - test
+
 
