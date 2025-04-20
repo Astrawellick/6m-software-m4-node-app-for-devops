@@ -28,7 +28,7 @@ jobs:
           command: npm run test
 
   build-and-push:
-    docker:  
+    machine:  
       - image: cimg/node:16.10
     steps:
       - checkout
