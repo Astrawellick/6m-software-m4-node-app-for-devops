@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker push astrawellick/devops-intro:latest
+            docker push astrawellick/devops-intro:latest 
 
 workflows:
   version: 2
