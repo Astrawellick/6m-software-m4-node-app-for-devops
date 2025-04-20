@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t astrawellick/circleCI:latest .
+            docker build -t astrawellick/devops-intro:latest .
       - run:
           name: Login to Docker Hub
           command: |
@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            docker push astrawellick/circleCI:latest
+            docker push astrawellick/devops-intro:latest
 
 workflows:
   version: 2
